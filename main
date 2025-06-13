@@ -1,0 +1,120 @@
+import React from 'react';
+
+// SVG component for the striped awning
+const Awning = () => (
+  <svg
+    width="100%"
+    height="100"
+    viewBox="0 0 100 100"
+    preserveAspectRatio="none"
+    className="w-full max-w-4xl h-auto"
+  >
+    <defs>
+      <pattern
+        id="stripe"
+        patternUnits="userSpaceOnUse"
+        width="20"
+        height="1"
+        patternTransform="rotate(45)"
+      >
+        <rect width="10" height="1" fill="#DC2626"></rect>
+        <rect x="10" width="10" height="1" fill="white"></rect>
+      </pattern>
+    </defs>
+    <path
+      d="M0,20 Q5,0 10,20 T20,20 T30,20 T40,20 T50,20 T60,20 T70,20 T80,20 T90,20 T100,20 V100 H0 Z"
+      fill="url(#stripe)"
+      stroke="#DC2626"
+      strokeWidth="2"
+    />
+     <path
+      d="M0,20 Q5,0 10,20 T20,20 T30,20 T40,20 T50,20 T60,20 T70,20 T80,20 T90,20 T100,20"
+      fill="none"
+      stroke="#DC2626"
+      strokeWidth="4"
+    />
+  </svg>
+);
+
+
+// Reusable Card component for each food truck
+const FoodTruckCard = ({ imageUrl, name, cuisine }) => {
+  return (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-sm transform hover:scale-105 transition-transform duration-300 ease-in-out">
+      {/* Food Truck Image */}
+      <img
+        className="w-full h-56 object-cover"
+        src={imageUrl}
+        alt={`A photo of the ${name} food truck`}
+        onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/400x300/e2e8f0/4a5568?text=Image+Not+Found'; }}
+      />
+      <div className="p-6 text-center">
+        {/* Food Truck Details */}
+        <h3 className="text-2xl font-bold text-gray-800 mb-1">{name}</h3>
+        <p className="text-md text-gray-600 mb-6">{cuisine}</p>
+        
+        {/* View Menu Button */}
+        <a
+          href="#"
+          className="inline-block bg-red-600 text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition-all duration-300"
+        >
+          View Menu
+        </a>
+      </div>
+    </div>
+  );
+};
+
+// Main App component
+export default function App() {
+  // Data for the food trucks
+  const foodTrucks = [
+    {
+      name: 'Birria-Landia',
+      cuisine: 'Mexican',
+      imageUrl: 'https://images.unsplash.com/photo-1599974511514-76495d121fc6?q=80&w=2070&auto=format&fit=crop',
+    },
+    {
+      name: 'Mysttik Masala',
+      cuisine: 'Indian',
+      imageUrl: 'https://images.unsplash.com/photo-1598346762291-1627c5a7d013?q=80&w=1964&auto=format&fit=crop',
+    },
+    {
+      name: 'The Halal Guys',
+      cuisine: 'Middle Eastern',
+      imageUrl: 'https://images.unsplash.com/photo-1562059390-a761a084768e?q=80&w=2070&auto=format&fit=crop',
+    },
+  ];
+
+  return (
+    <div className="bg-cyan-50 min-h-screen font-sans flex flex-col items-center p-4 sm:p-8">
+      <header className="w-full flex flex-col items-center mb-10">
+        {/* Awning Graphic */}
+        <div className="w-full max-w-4xl">
+            <Awning />
+        </div>
+
+        {/* Main Title */}
+        <div className="bg-white/70 backdrop-blur-sm p-6 rounded-xl -mt-16 z-10 shadow-lg">
+             <h1 className="text-4xl md:text-6xl font-extrabold text-gray-800 text-center">
+                Food Truck Favorites
+            </h1>
+        </div>
+      </header>
+
+      {/* Grid of Food Truck Cards */}
+      <main className="w-full max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {foodTrucks.map((truck) => (
+            <FoodTruckCard
+              key={truck.name}
+              name={truck.name}
+              cuisine={truck.cuisine}
+              imageUrl={truck.imageUrl}
+            />
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+}
